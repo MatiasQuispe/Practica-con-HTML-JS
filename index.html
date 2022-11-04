@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Ejemplo DOM con JavaScript</title>
+</head>
+<body onload="entrar()">
+
+    <h1 id="cabecero">Ejemplo DOM con JavaScript</h1>
+    <p id="parrafo">Saludos!</p>
+
+    <form id="formulario">
+        Nombre: <input id="nombre" type="text" name="nombre" value="Juan"/><br/>
+        Apellido: <input id="apellido" type="text" name="apellido" value="Perez"/><br/>
+    </form>
+
+    <button onclick="mostrarValores()">Mostrar</button>
+    <div id="valores"></div>
+    <button onclick="cambiar()">Cambiar imagen</button><br/>
+    <img id="imagen" src="http://globalmentoring.com.mx/imagenes/javascript.png"/><br/>
+    <button onclick="cambiarColor()">Cambiar color</button>
+    <div id="mostrar"></div>
+    <div id="mensajeOnload"></div>
+    Nombre: <input type="text" onchange="convertir(this)"/>
+    <div><p onmouseover="rojo(this)" onmouseout="azul(this)" 
+        onmousedown="verde(this)" onmouseup="black(this)">Cambio color onmouseover y onmouseout</p></div>
+
+
+    <script>
+        let cabecero = document.getElementById("cabecero");
+        console.log(`Valor cabecero: ${cabecero.innerHTML}`);
+        let parrafo = document.getElementById("parrafo").innerHTML;
+        console.log("Valor parrafo: " + parrafo);
+        console.log("Saludos desde JavaScript");
+        //cambio el valor del h1
+        //cabecero.innerHTML = "Nuevo valor del cabezero";
+
+        function mostrarValores(){
+            let formulario = document.forms["formulario"];
+            texto = "";
+            //accedo a los elementos de manera recorrida
+            /*for(let elemento of formulario){
+                texto += elemento.value + "<br/>"
+            }
+            */
+            //accedo a los elementos del formulario de manera individual
+            let nombre = formulario["nombre"];
+            let apellido = formulario["apellido"];
+            texto = nombre.value + "<br/>" + apellido.value;
+            console.log(texto);
+            document.getElementById("valores").innerHTML = texto;
+        }
+
+        function cambiar(){
+            document.getElementById("imagen").src = "http://globalmentoring.com.mx/imagenes/html5.png";
+        }
+
+        function cambiarColor(){
+            document.getElementById("cabecero").style.color = "blue";
+        }
+        
+        document.getElementById("cabecero").onclick = cambiarTexto;
+
+        function cambiarTexto(){
+            document.getElementById("mostrar").innerHTML = "Nuevo contenido";
+        }
+
+        //evento onload
+        function entrar(){
+            alert("Entrando a la pagina web");
+            let texto = "";
+            if(navigator.cookieEnabled){
+                texto = "Cookies estan habilitadas";
+            }else{
+                texto = "Cookies estan inhabilitadas";
+            }
+            document.getElementById("mensajeOnload").innerHTML = texto;
+        }
+
+        function convertir(nombreInput){
+            nombreInput.value = nombreInput.value.toUpperCase();
+        }
+
+        function rojo(cambioColor){
+            cambioColor.style.color = "red";
+        }
+
+        function azul(cambioColor){
+            cambioColor.style.color = "blue";
+        }
+
+        function verde(cambioColor){
+            cambioColor.style.color = "green";
+        }
+
+        function black(cambioColor){
+            cambioColor.style.color = "black";
+        }
+
+        document.getElementById("nombre").addEventListener("focus", (evento) =>{
+            evento.target.style.background = "pink";
+        });
+        document.getElementById("nombre").addEventListener("blur", (evento) =>{
+            evento.target.style.background = "";
+        });
+
+        document.getElementById("apellido").addEventListener("focus", colorInput);
+        document.getElementById("apellido").addEventListener("blur",regresar);
+
+        function colorInput(evento){
+            let componente = evento.target;
+            componente.style.background = "yellow";
+        }
+
+        function regresar(evento){
+            evento.target.style.background = "white";
+        }
+
+    </script>
+    
+</body>
+</html>
